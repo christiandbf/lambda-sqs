@@ -1,3 +1,11 @@
+// eslint-disable-next-line import/no-unresolved
+const AWS = require('aws-sdk');
+
+const region = process.env.AWS_REGION;
+const lambda2URL = process.env.SQS_LAMBDA2_URL;
+
+const sqs = new AWS.SQS({ region });
+
 const hello = async event => ({
   statusCode: 200,
   body: JSON.stringify(
@@ -12,7 +20,14 @@ const hello = async event => ({
 
 const processSQSLambda1 = async (event) => {
   const { Records } = event;
-  return Records;
+  const params = {
+    MessageBody: JSON.stringify(Records),
+    QueueUrl: lambda2URL,
+  };
+
+  const response = await sqs.sendMessage(params).promise();
+
+  return response;
 };
 
 module.exports = {

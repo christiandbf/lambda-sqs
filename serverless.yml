@@ -36,6 +36,9 @@ functions:
             Fn::GetAtt:
               - SQSLambda1
               - Arn
+    environment:
+      SQS_LAMBDA2_URL:
+        Ref: SQSLambda2
 
 resources:
   Resources:
@@ -43,3 +46,7 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: SQSLambda1
+    SQSLambda2:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: SQSLambda2
