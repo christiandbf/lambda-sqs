@@ -2,7 +2,6 @@
   "name": "lambda-sqs",
   "version": "1.0.0",
   "description": "Template for Lambda and SQS (AWS)",
-  "main": "handler.js",
   "private": true,
   "scripts": {
     "test": "jest",
