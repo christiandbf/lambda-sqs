@@ -25,8 +25,12 @@ package:
   exclude:
     - test/**
 
+custom:
+  lambda1SQS: "lambda1SQS-${self:provider.stage}"
+  lambda2SQS: "lambda2SQS-${self:provider.stage}"
+
 functions:
-  processsSQSLambda1:
+  processSQSLambda1:
     handler: handler.processSQSLambda1
     reservedConcurrency: 10
     events:
@@ -34,19 +38,19 @@ functions:
           batchSize: 1
           arn: 
             Fn::GetAtt:
-              - SQSLambda1
+              - Lambda1SQS
               - Arn
     environment:
       SQS_LAMBDA2_URL:
-        Ref: SQSLambda2
+        Ref: Lambda2SQS
 
 resources:
   Resources:
-    SQSLambda1:
+    Lambda1SQS:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: SQSLambda1
-    SQSLambda2:
+        QueueName: ${self:custom.lambda1SQS}
+    Lambda2SQS:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: SQSLambda2
+        QueueName: ${self:custom.lambda2SQS}

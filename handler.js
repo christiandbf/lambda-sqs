@@ -20,14 +20,13 @@ const hello = async event => ({
 
 const processSQSLambda1 = async (event) => {
   const { Records } = event;
-  const params = {
-    MessageBody: JSON.stringify(Records),
-    QueueUrl: lambda2URL,
-  };
 
-  const response = await sqs.sendMessage(params).promise();
+  const promises = Records
+    .map(record => record.body)
+    .map(body => ({ MessageBody: JSON.stringify(body), QueueUrl: lambda2URL }))
+    .map(params => sqs.sendMessage(params).promise());
 
-  return response;
+  return Promise.all(promises);
 };
 
 module.exports = {

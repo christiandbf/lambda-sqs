@@ -13,23 +13,29 @@ Just playing with serverless.
 * Deploy the Function
 
     ```bash
-        serverless deploy function -f hello
+        serverless deploy function -f processSQSLambda1
     ```
 
 * Invoke the Function
 
     ```bash
-        serverless invoke -f hello -l
+        serverless invoke -f processSQSLambda1 -l
     ```
 
 * Fetch the Function Logs
 
     ```bash
-        serverless logs -f hello -t
+        serverless logs -f processSQSLambda1 -t
     ```
 
 * Cleanup
 
     ```bash
         serverless remove
+    ```
+
+* Invoke with mock
+
+    ```bash
+        serverless invoke --function processSQSLambda1 --path ./mocks/sqs-lambda1.json
     ```
